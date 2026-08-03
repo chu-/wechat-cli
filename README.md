@@ -56,10 +56,69 @@ Requires Python >= 3.10.
 ### From Source
 
 ```bash
-git clone https://github.com/freestylefly/wechat-cli.git
+git clone https://github.com/chu-/wechat-cli.git
 cd wechat-cli
 pip install -e .
 ```
+
+### macOS Intel (13.5.1+) with fish shell
+
+For an Intel Mac, install from source and compile the x86_64 key scanner:
+
+1. Clone the source repository:
+
+   ```bash
+   cd $HOME/.bin
+   git clone https://github.com/chu-/wechat-cli.git
+   cd wechat-cli
+   ```
+
+2. Create a Python 3.11 virtual environment:
+
+   ```bash
+   python3.11 -m venv .venv
+   ```
+
+3. Compile the macOS Intel scanner:
+
+   ```bash
+   clang -O2 \
+     -o wechat_cli/bin/find_all_keys_macos.x86_64 \
+     wechat_cli/bin/find_all_keys_macos.c \
+     -framework Foundation
+   ```
+
+4. Install the CLI:
+
+   ```bash
+   .venv/bin/pip install -e .
+   ```
+
+5. Add the virtual environment to fish's `PATH`:
+
+   ```fish
+   set -x PATH $HOME/.bin/wechat-cli/.venv/bin $PATH
+   source ~/.config/fish/config.fish
+   wechat-cli --version
+   ```
+
+Expected output:
+
+```text
+wechat-cli, version 0.2.4
+```
+
+#### Initialize
+
+Grant Terminal **Full Disk Access**, keep WeChat running, then run:
+
+```bash
+sudo wechat-cli init
+# Or, to overwrite an existing configuration:
+sudo wechat-cli init --force
+```
+
+The repository documents macOS `>=26.3.1` and WeChat `<=4.1.8.100`. The official `WeChatMac_4.1.8.dmg` was downloaded separately but was not installed.
 
 ---
 
